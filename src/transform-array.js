@@ -13,12 +13,48 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === '--discard-next') {
-      
-    }
+ function transform(arr) {
+  let newArr
+for (let i = 0; i < arr.length; i++) {
+  if (arr[i] === '--double-next') {
+      if(typeof arr[i-1] === 'number') {
+          arr[i] = arr[i+1]
+      }
+        else if(typeof arr[i-1] !== 'number') {
+            arr.splice(i,1)
+        }
   }
+    else if(arr[i] === '--double-prev') {
+      if(typeof arr[i-1] === 'number') {
+          arr[i] = arr[i-1]
+      }
+        else if(typeof arr[i-1] !== 'number') {
+            arr.splice(i,1)
+        }
+  }
+    else if(arr[i] === '--discard-next') {
+      if(typeof arr[i-1] === 'number') {
+          arr.splice(i,2)
+      }
+        else if(typeof arr[i-1] !== 'number') {
+            arr.splice(i,1)
+        }
+  }
+    else if(arr[i] === '--discard-prev') {
+      if(typeof arr[i-1] === 'number') {
+          arr.splice(i-1,2)
+      }
+        else if(typeof arr[i-1] !== 'number') {
+            arr.splice(i,1)
+        }
+  }
+}
+  newArr = arr.filter(function (el) {
+      if(typeof el === 'number') {
+          return true
+      } else return false
+  })
+return newArr
 }
 
 module.exports = {
