@@ -14,6 +14,9 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
  function transform(arr) {
+  if(!Array.isArray(arr)) {
+    return "'arr' parameter must be an instanceof the Array!"
+  } else {
   let newArr
 for (let i = 0; i < arr.length; i++) {
   if (arr[i] === '--double-next') {
@@ -55,6 +58,7 @@ for (let i = 0; i < arr.length; i++) {
       } else return false
   })
 return newArr
+}
 }
 
 module.exports = {
