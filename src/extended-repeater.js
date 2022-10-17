@@ -16,21 +16,30 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function repeater(str, options) {
-  let result = '';
-  let add = '';
-  add = str;
-  if (options.repeatTimes !== 0) {
-    for (let j=0;j < options.additionRepeatTimes; j++) {
-      add += options.addition;
+  let {
+    repeatTimes = 1,
+    separator = '+',
+    addition = '',
+    additionRepeatTimes = 1,
+    additionSeparator = '|'
+  } = options;
+
+  function littleRepeater(stringAd, sepAd, amount) {
+    stringAd = stringAd + '';
+    const add = [];
+    for (let i = 1; i <= amount; i++) {
+      add.push(stringAd)
     }
-    add += options.separator;
+    return add.join(sepAd);
   }
-  if (options.repeatTimes !== 0) {
-    for (let i = 0;i < options.repeatTimes; i++) {
-      result = result + add;
-    }
-  }
-  return result
+
+  addition = littleRepeater(addition,
+    additionSeparator,
+    additionRepeatTimes);
+
+  str = str + addition;
+
+  return littleRepeater(str, separator, repeatTimes);
 }
 
 module.exports = {
