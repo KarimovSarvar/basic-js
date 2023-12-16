@@ -13,53 +13,34 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
- function transform(arr) {
-  if(!Array.isArray(arr)) {
+function transform(arr) {
+  if (!Array.isArray(arr)) {
     throw new Error("'arr' parameter must be an instance of the Array!");
   } else {
-  let newArr
-for (let i = 0; i < arr.length; i++) {
-  if (arr[i] === '--double-next') {
-      if(typeof arr[i-1] === 'number') {
-          arr[i] = arr[i+1]
-      }
-        else if(typeof arr[i-1] !== 'number') {
-            arr.splice(i,1)
+    let newArr = [];
+
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === '--double-next') {
+        if (i < arr.length - 1 && typeof arr[i + 1] === 'number') {
+          newArr.push(arr[i + 1]);
         }
-  }
-    else if(arr[i] === '--double-prev') {
-      if(typeof arr[i-1] === 'number') {
-          arr[i] = arr[i-1]
-      }
-        else if(typeof arr[i-1] !== 'number') {
-            arr.splice(i,1)
+      } else if (arr[i] === '--double-prev') {
+        if (i > 0 && typeof arr[i - 1] === 'number') {
+          newArr.push(arr[i - 1]);
         }
-  }
-    else if(arr[i] === '--discard-next') {
-      if(typeof arr[i-1] === 'number') {
-          arr.splice(i,2)
+      } else if (arr[i] === '--discard-next') {
+        i++; // Skip the next element
+      } else if (arr[i] === '--discard-prev') {
+        newArr.pop();
+      } else {
+        newArr.push(arr[i]);
       }
-        else if(typeof arr[i-1] !== 'number') {
-            arr.splice(i,1)
-        }
-  }
-    else if(arr[i] === '--discard-prev') {
-      if(typeof arr[i-1] === 'number') {
-          arr.splice(i-1,2)
-      }
-        else if(typeof arr[i-1] !== 'number') {
-            arr.splice(i,1)
-        }
+    }
+
+    return newArr;
   }
 }
-  newArr = arr.filter(function (el) {
-      if(typeof el === 'number') {
-          return true
-      } else return false
-  })
-return newArr
-}
-}
+
 
 module.exports = {
   transform

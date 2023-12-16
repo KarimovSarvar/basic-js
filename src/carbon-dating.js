@@ -19,22 +19,22 @@ const HALF_LIFE_PERIOD = 5730;
  */
 function dateSample(sampleActivity) {
   if (typeof sampleActivity === 'string') {
-    if (!isNaN(sampleActivity)) {
-      let result;
-      let up =  Math.log(15/sampleActivity);
-      let k = 0.693/5730;
-      result = Math.ceil(up/k);
-      if(result < 1 || result == Infinity) {
-        return false
-      } else return result
+    sampleActivity = parseFloat(sampleActivity);
+
+    if (!isNaN(sampleActivity) && sampleActivity > 0) {
+      const k = 0.693 / 5730;
+      const age = Math.log(15 / sampleActivity) / k;
+      if (age > 0 && isFinite(age)) {
+        return Math.ceil(age);
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } else {
+    return false;
   }
-  else if(sampleActivity < 1) {
-    return false
-  } else return false
-} 
-  else if (arguments.length == 0) {
-    return false
-} else return false
 }
 
 module.exports = {
